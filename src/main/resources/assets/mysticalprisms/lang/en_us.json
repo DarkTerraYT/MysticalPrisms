@@ -1,0 +1,21 @@
+{
+  "item.mysticalprisms.jade": "Jade",
+  "item.mysticalprisms.sapphire": "Sapphire",
+  "item.mysticalprisms.lava_crystal": "Lava Crystal",
+
+  "block.mysticalprisms.jade_block": "Block of Jade",
+  "block.mysticalprisms.jade_ore": "Jade Ore",
+  "block.mysticalprisms.jade_deepslate_ore": "Jade Deepslate Ore",
+  "block.mysticalprisms.sapphire_block": "Block of Sapphire",
+  "block.mysticalprisms.sapphire_ore": "Sapphire Ore",
+  "block.mysticalprisms.sapphire_deepslate_ore": "Sapphire Deepslate Ore",
+  "block.mysticalprisms.amber_block": "Block of Amber",
+  "block.mysticalprisms.amber_ore": "Amber Ore",
+  "block.mysticalprisms.amber_deepslate_ore": "Amber Deepslate Ore",
+  "block.mysticalprisms.lava_crystal_block": "Block of Lava Crystals",
+  "block.mysticalprisms.lava_crystal_ore": "Lava Crystal Ore",
+  "block.mysticalprisms.crystal_grower": "Crystal Grower",
+
+  "creativetab.mysticalprisms.crystal_resources": "Mystical Prisms: Resources",
+  "creativetab.mysticalprisms.crystal_misc": "Mystical Prisms: Misc"
+}
