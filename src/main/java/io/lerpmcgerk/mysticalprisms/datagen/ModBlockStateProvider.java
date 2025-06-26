@@ -25,7 +25,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.AMBER_DEEPSLATE_ORE);
         blockWithItem(ModBlocks.LAVA_CRYSTAL_BLOCK);
         blockWithItem(ModBlocks.LAVA_CRYSTAL_ORE);
-        blockWithItem(ModBlocks.CRYSTAL_GROWER);
     }
 
     private void blockWithItem(DeferredBlock<?> block)

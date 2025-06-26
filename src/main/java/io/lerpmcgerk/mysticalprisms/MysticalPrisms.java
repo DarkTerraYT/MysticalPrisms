@@ -46,6 +46,8 @@ public class MysticalPrisms {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         CreativeTabs.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -67,13 +69,7 @@ public class MysticalPrisms {
     }
 
     @SubscribeEvent
-    public static void registerVER(EntityRenderersEvent.RegisterRenderers event)
-    {
-    }
-
-    @SubscribeEvent
-    public static void regsiterScreens(RegisterMenuScreensEvent event)
-    {
+    public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.CRYSTAL_GROWER_MENU.get(), CrystalGrowerScreen::new);
     }
 

@@ -23,6 +23,8 @@ public class CreativeTabs {
                 output.accept(ModBlocks.JADE_BLOCK);
                 output.accept(ModItems.SAPPHIRE);
                 output.accept(ModBlocks.SAPPHIRE_BLOCK);
+                output.accept(ModItems.AMBER);
+                output.accept(ModBlocks.AMBER_BLOCK);
                 output.accept(ModItems.LAVA_CRYSTAL);
                 output.accept(ModBlocks.LAVA_CRYSTAL_BLOCK);
             }).build());
@@ -33,9 +35,13 @@ public class CreativeTabs {
             .displayItems(((itemDisplayParameters, output) ->
             {
                 output.accept(ModBlocks.JADE_ORE);
-                output.accept(ModBlocks.SAPPHIRE_ORE);
                 output.accept(ModBlocks.JADE_DEEPSLATE_ORE);
+                output.accept(ModBlocks.SAPPHIRE_ORE);
                 output.accept(ModBlocks.SAPPHIRE_DEEPSLATE_ORE);
+                output.accept(ModBlocks.AMBER_ORE);
+                output.accept(ModBlocks.AMBER_DEEPSLATE_ORE);
+                output.accept(ModBlocks.LAVA_CRYSTAL_ORE);
+                output.accept(ModBlocks.CRYSTAL_GROWER);
             }))
             .build());
 

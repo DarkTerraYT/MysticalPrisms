@@ -78,7 +78,7 @@ public class ModBlocks {
     ));
 
     // Block Entities
-    public static final DeferredBlock<Block> CRYSTAL_GROWER = registerBlock("growth_chamber", () -> new CrystalGrowerBlock(BlockBehaviour.Properties.of()));
+    public static final DeferredBlock<Block> CRYSTAL_GROWER = registerBlock("crystal_grower", () -> new CrystalGrowerBlock(BlockBehaviour.Properties.of()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> blockSupplier)
     {

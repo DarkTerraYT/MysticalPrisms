@@ -1,0 +1,3 @@
+// 1.21.1	2025-06-26T03:27:59.0777485	Tags for minecraft:block mod id mysticalprisms
+a300e3fad8c6941d6721f92c056280bff392fea9 data/minecraft/tags/block/mineable/pickaxe.json
+fc519e36cac2a324cbaa9d972528ec767c31c398 data/minecraft/tags/block/needs_iron_tool.json
