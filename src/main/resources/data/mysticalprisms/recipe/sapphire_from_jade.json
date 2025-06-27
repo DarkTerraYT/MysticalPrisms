@@ -1,0 +1,21 @@
+{
+  "type": "mysticalprisms:crystal_grower",
+  "top":
+  {
+    "item": "mysticalprisms:jade"
+  },
+  "bottom":
+  {
+    "item": "mysticalprisms:jade"
+  },
+  "fluid":
+  {
+    "amount": 0,
+    "fluid": "minecraft:empty"
+  },
+  "time": 120,
+  "result":
+  {
+    "id": "mysticalprisms:sapphire"
+  }
+}

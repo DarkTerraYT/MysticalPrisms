@@ -32,11 +32,16 @@ public class CrystalGrowerMenu extends AbstractContainerMenu {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 0, 38, 15));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1, 38, 51));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2, 66, 15));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3, 66, 51));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 4, 125, 29));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 0, 39, 16) {
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
+        });
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1, 39, 52));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2, 67, 16));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3, 67, 52));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 4, 130, 34));
 
         addDataSlots(data);
     }
@@ -47,10 +52,18 @@ public class CrystalGrowerMenu extends AbstractContainerMenu {
     }
 
 
+    public double getCraftingProgressPercent(int decimals)
+    {
+        int progress = blockEntity.getProgress() * (10^decimals);
+        int maxProgress = blockEntity.getMaxProgress() * (10^decimals);
+        int percentInt = progress/maxProgress * 100;
+        return (double) percentInt / (10^decimals);
+    }
+
     public int getScaledArrowProgress() {
         int progress = this.data.get(0);
         int maxProgress = this.data.get(1);
-        int arrowPixelSize = 24;
+        int arrowPixelSize = 31;
 
         return maxProgress != 0 && progress != 0 ? progress * arrowPixelSize / maxProgress : 0;
     }

@@ -1,0 +1,17 @@
+{
+  "type": "mysticalprisms:crystal_grower",
+  "top":
+  {
+    "item": "mysticalprisms:amber"
+  },
+  "fluid":
+  {
+    "amount": 125,
+    "fluid": "minecraft:lava"
+  },
+  "time": 200,
+  "result":
+  {
+    "id": "mysticalprisms:lava_crystal"
+  }
+}

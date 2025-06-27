@@ -1,6 +1,7 @@
 {
   "item.mysticalprisms.jade": "Jade",
   "item.mysticalprisms.sapphire": "Sapphire",
+  "item.mysticalprisms.amber": "Amber",
   "item.mysticalprisms.lava_crystal": "Lava Crystal",
 
   "block.mysticalprisms.jade_block": "Block of Jade",
@@ -17,5 +18,10 @@
   "block.mysticalprisms.crystal_grower": "Crystal Grower",
 
   "creativetab.mysticalprisms.crystal_resources": "Mystical Prisms: Resources",
-  "creativetab.mysticalprisms.crystal_misc": "Mystical Prisms: Misc"
+  "creativetab.mysticalprisms.crystal_misc": "Mystical Prisms: Misc",
+
+  "mysticalprisms.tooltip.liquid.amount.with.capacity": "%s / %s mB",
+  "mysticalprisms.tooltip.liquid.amount": "%s mB",
+  "mysticalprisms.tooltip.no_recipe": "None or Invalid recipe.",
+  "mysticalprisms.tooltip.no_energy": "Not enough energy."
 }

@@ -4,6 +4,7 @@ import io.lerpmcgerk.mysticalprisms.block.ModBlocks;
 import io.lerpmcgerk.mysticalprisms.block.entity.ModBlockEntities;
 import io.lerpmcgerk.mysticalprisms.item.CreativeTabs;
 import io.lerpmcgerk.mysticalprisms.item.ModItems;
+import io.lerpmcgerk.mysticalprisms.recipe.ModRecipes;
 import io.lerpmcgerk.mysticalprisms.screen.ModMenuTypes;
 import io.lerpmcgerk.mysticalprisms.screen.custom.CrystalGrowerScreen;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -31,9 +32,10 @@ public class MysticalPrisms {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "mysticalprisms";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
+
     public MysticalPrisms(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -48,6 +50,8 @@ public class MysticalPrisms {
         CreativeTabs.register(modEventBus);
         ModMenuTypes.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+
+        ModRecipes.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -68,16 +72,17 @@ public class MysticalPrisms {
     public void onServerStarting(ServerStartingEvent event) {
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.CRYSTAL_GROWER_MENU.get(), CrystalGrowerScreen::new);
-    }
+    }*/
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
+        public static void onClientSetup(RegisterMenuScreensEvent event) {
+            event.register(ModMenuTypes.CRYSTAL_GROWER_MENU.get(), CrystalGrowerScreen::new);
         }
     }
 }
