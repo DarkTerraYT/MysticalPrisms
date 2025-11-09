@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "mysticalprisms:block/crystallizer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "mysticalprisms:block/crystallizer"
+    },
+    "facing=south": {
+      "model": "mysticalprisms:block/crystallizer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mysticalprisms:block/crystallizer",
+      "y": 270
+    }
+  }
+}

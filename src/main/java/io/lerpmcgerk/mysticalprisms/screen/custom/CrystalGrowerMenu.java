@@ -3,6 +3,8 @@ package io.lerpmcgerk.mysticalprisms.screen.custom;
 import io.lerpmcgerk.mysticalprisms.block.ModBlocks;
 import io.lerpmcgerk.mysticalprisms.block.entity.CrystalGrowerBlockEntity;
 import io.lerpmcgerk.mysticalprisms.screen.ModMenuTypes;
+import io.lerpmcgerk.mysticalprisms.screen.slot.FluidContainerSlot;
+import io.lerpmcgerk.mysticalprisms.screen.slot.OutputItemSlot;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -18,9 +20,11 @@ public class CrystalGrowerMenu extends AbstractContainerMenu {
     private final Level level;
     private final ContainerData data;
 
+    private final Inventory inv;
+
     public CrystalGrowerMenu(int containerId, Inventory inv, FriendlyByteBuf extraData)
     {
-        this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(5));
+        this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(6));
     }
     public CrystalGrowerMenu(int containerId, Inventory inv, BlockEntity entity, ContainerData data)
     {
@@ -28,20 +32,17 @@ public class CrystalGrowerMenu extends AbstractContainerMenu {
         this.blockEntity = (CrystalGrowerBlockEntity)entity;
         this.level = inv.player.level();
         this.data = data;
+        this.inv = inv;
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 0, 39, 16) {
-            @Override
-            public int getMaxStackSize() {
-                return 1;
-            }
-        });
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1, 39, 52));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2, 67, 16));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3, 67, 52));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 4, 130, 34));
+        this.addSlot(new FluidContainerSlot(blockEntity.itemHandler, 0, 39, 11));
+        this.addSlot(new OutputItemSlot(blockEntity.itemHandler, 1, 39, 34));
+        this.addSlot(new FluidContainerSlot(blockEntity.itemHandler, 2, 39, 57));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3, 67, 16));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 4, 67, 52));
+        this.addSlot(new OutputItemSlot(blockEntity.itemHandler, 5, 130, 34));
 
         addDataSlots(data);
     }
@@ -84,7 +85,7 @@ public class CrystalGrowerMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 5;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 6;  // must be the number of slots you have!
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);

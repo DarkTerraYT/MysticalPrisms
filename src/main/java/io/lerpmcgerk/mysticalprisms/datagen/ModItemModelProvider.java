@@ -17,5 +17,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.SAPPHIRE.get());
         basicItem(ModItems.AMBER.get());
         basicItem(ModItems.LAVA_CRYSTAL.get());
+        basicItem(ModItems.ENDER_CRYSTAL.get());
     }
 }

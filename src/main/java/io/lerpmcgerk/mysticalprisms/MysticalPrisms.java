@@ -71,18 +71,4 @@ public class MysticalPrisms {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
     }
-
-    /*@SubscribeEvent
-    public static void registerScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenuTypes.CRYSTAL_GROWER_MENU.get(), CrystalGrowerScreen::new);
-    }*/
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(RegisterMenuScreensEvent event) {
-            event.register(ModMenuTypes.CRYSTAL_GROWER_MENU.get(), CrystalGrowerScreen::new);
-        }
-    }
 }

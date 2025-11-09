@@ -24,6 +24,7 @@ public class CrystalGrowerScreen extends AbstractContainerScreen<CrystalGrowerMe
     private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(MysticalPrisms.MODID, "textures/gui/crystal_grower/crystal_grower_gui.png");
     private static final ResourceLocation ARROW_TEXTURE = ResourceLocation.fromNamespaceAndPath(MysticalPrisms.MODID, "textures/gui/progress_bar.png");
 
+
     private FluidTankRenderer fluidRenderer;
 
     public CrystalGrowerScreen(CrystalGrowerMenu menu, Inventory playerInventory, Component title) {
@@ -47,10 +48,10 @@ public class CrystalGrowerScreen extends AbstractContainerScreen<CrystalGrowerMe
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        renderFluidTooltipArea(guiGraphics, mouseX, mouseY, x, y, menu.blockEntity.getFluid(), 9, 10, fluidRenderer);
+        renderFluidTooltipArea(guiGraphics, mouseX, mouseY, x, y, menu.blockEntity.getFluidTank().getFluid(), 9, 10, fluidRenderer);
 
-            renderTooltipArea(guiGraphics, mouseX, mouseY, x, y, 88, 40, 31, 4,
-                    Component.literal(nf.format(menu.getCraftingProgressPercent(1))));
+        renderTooltipArea(guiGraphics, mouseX, mouseY, x, y, 88, 40, 31, 4,
+                Component.literal(nf.format(menu.getCraftingProgressPercent(1))));
     }
 
     @Override
@@ -65,7 +66,7 @@ public class CrystalGrowerScreen extends AbstractContainerScreen<CrystalGrowerMe
         guiGraphics.blit(GUI_TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
         renderProgressArrow(guiGraphics, x, y);
-        fluidRenderer.render(guiGraphics, x + 9, y + 10, menu.blockEntity.getFluid());
+        fluidRenderer.render(guiGraphics, x + 9, y + 10, menu.blockEntity.getFluidTank().getFluid());
     }
 
     private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {

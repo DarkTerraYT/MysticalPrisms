@@ -8,11 +8,6 @@
   {
     "item": "mysticalprisms:jade"
   },
-  "fluid":
-  {
-    "amount": 0,
-    "fluid": "minecraft:empty"
-  },
   "time": 120,
   "result":
   {

@@ -1,6 +1,7 @@
 package io.lerpmcgerk.mysticalprisms.block.entity;
 
-import io.lerpmcgerk.mysticalprisms.item.ModItems;
+import io.lerpmcgerk.mysticalprisms.block.entity.custom.UpgradableBlockEntity;
+import io.lerpmcgerk.mysticalprisms.item.custom.IUpgradeItem;
 import io.lerpmcgerk.mysticalprisms.recipe.CrystalGrowerRecipe;
 import io.lerpmcgerk.mysticalprisms.recipe.CrystalGrowerRecipeInput;
 import io.lerpmcgerk.mysticalprisms.recipe.ModRecipes;
@@ -8,10 +9,12 @@ import io.lerpmcgerk.mysticalprisms.screen.custom.CrystalGrowerMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -22,23 +25,37 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.FluidActionResult;
+import net.neoforged.neoforge.common.world.chunk.TicketHelper;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class CrystalGrowerBlockEntity extends BlockEntity implements MenuProvider {
+public class CrystalGrowerBlockEntity extends UpgradableBlockEntity implements MenuProvider {
 
-    public final ItemStackHandler itemHandler = new ItemStackHandler(5) {
+    public final ItemStackHandler itemHandler = new ItemStackHandler(6) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            setChanged();
+            if(!level.isClientSide())
+            {
+                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+            }
+        }
+    };
+    private final ItemStackHandler upgrades = new ItemStackHandler(7)
+    {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -50,34 +67,50 @@ public class CrystalGrowerBlockEntity extends BlockEntity implements MenuProvide
     };
 
     private static final int LIQUID_IN_SLOT = 0;
-    private static final int LIQUID_OUT_SLOT = 1;
-    private static final int INPUT_SLOT_1 = 2;
-    private static final int INPUT_SLOT_2 = 3;
-    private static final int OUTPUT_SLOT = 4;
-
-    private FluidTank createFluidTank() {
-        return new FluidTank(64000) {
-            @Override
-            protected void onContentsChanged() {
-                setChanged();
-                if (!level.isClientSide()) {
-                    level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
-                }
-            }
-
-            @Override
-            public boolean isFluidValid(FluidStack stack) {
-                return true;
-            }
-        };
-    }
-
-    private final FluidTank FLUID_TANK = createFluidTank();
+    private static final int LIQUID_HANDLER_OUT_SLOT = 1;
+    private static final int LIQUID_OUTPUT_SLOT = 2;
+    private static final int INPUT_SLOT_1 = 3;
+    private static final int INPUT_SLOT_2 = 4;
+    private static final int OUTPUT_SLOT = 5;
 
     protected final ContainerData data;
 
+    private final FluidTank fluidTank = new FluidTank(4000)
+    {
+        @Override
+        protected void onContentsChanged() {
+            super.onContentsChanged();
+            CrystalGrowerBlockEntity.this.sendUpdate();
+        }
+
+        @Override
+        public int getCapacity() {
+            return capacity;
+        }
+
+        @Override
+        public int getFluidAmount() {
+            return fluid.getAmount();
+        }
+    };
+
+    public IFluidHandler  getIFluidTank(Direction direction)
+    {
+        return fluidTank;
+    }
+
+
+    public FluidTank getFluidTank() {
+        return fluidTank;
+    }
+
     private int progress;
     private int maxProgress = 200;
+
+    public int getModifiedMaxProgress()
+    {
+        return maxProgress;
+    }
 
     public CrystalGrowerBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.CRYSTAL_GROWER_BE.get(), pos, blockState);
@@ -124,6 +157,16 @@ public class CrystalGrowerBlockEntity extends BlockEntity implements MenuProvide
         return new CrystalGrowerMenu(i, inventory, this, this.data);
     }
 
+    private void sendUpdate()
+    {
+        setChanged();
+
+        if(this.level != null)
+        {
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
+        }
+    }
+
     public void drops()
     {
         SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
@@ -140,9 +183,7 @@ public class CrystalGrowerBlockEntity extends BlockEntity implements MenuProvide
         tag.put("inventory", itemHandler.serializeNBT(registries));
         tag.putInt("crystal_grower.progress", progress);
         tag.putInt("crystal_grower.max_progress", maxProgress);
-
-        tag = FLUID_TANK.writeToNBT(registries, tag);
-
+        tag.put("fluid_tank", this.fluidTank.writeToNBT(registries, new CompoundTag()));
         super.saveAdditional(tag, registries);
     }
 
@@ -153,21 +194,20 @@ public class CrystalGrowerBlockEntity extends BlockEntity implements MenuProvide
         itemHandler.deserializeNBT(registries, tag.getCompound("inventory"));
         progress = tag.getInt("crystal_grower.progress");
         maxProgress = tag.getInt("crystal_grower.max_progress");
-
-        FLUID_TANK.readFromNBT(registries, tag);
+        this.fluidTank.readFromNBT(registries, tag.getCompound("fluid_tank"));
     }
 
     public void tick(Level level, BlockPos pos, BlockState state)
     {
-        checkFluidSlots();
-
-        if(hasRecipe() && hasRequiredEnergy())
+        if(hasRecipe() && hasEnoughLiquid())
         {
+            maxProgress = getCurrentRecipe().get().value().time();
             increaseCraftingProgress();
             setChanged(level, pos, state);
 
             if(hasCraftingFinished())
             {
+                drainForRecipe();
                 craftItem();
                 resetProgress();
             }
@@ -176,56 +216,125 @@ public class CrystalGrowerBlockEntity extends BlockEntity implements MenuProvide
         {
             resetProgress();
         }
+
+        manageLiquidSlots();
     }
 
-    // Fluid Slots
-    private void checkFluidSlots()
+    public int getFluidAmount()
     {
-        if (hasFluidHandlerInSlot(LIQUID_IN_SLOT) && canInsertAmountIntoSlot(1, LIQUID_OUT_SLOT)) {
-            if(hasEmptyFluidHandlerInSlot(LIQUID_IN_SLOT))
-            {
-                transferFluidFromTankToHandler();
-            }
-            else
-            {
-                transferFluidToTank();
-            }
+        return this.fluidTank.getFluidAmount();
+    }
 
-            if(canInsertItemIntoSlot(itemHandler.getStackInSlot(LIQUID_IN_SLOT), LIQUID_OUT_SLOT))
-            {
-                itemHandler.setStackInSlot(LIQUID_OUT_SLOT, itemHandler.getStackInSlot(LIQUID_IN_SLOT));
-                itemHandler.setStackInSlot(LIQUID_IN_SLOT, ItemStack.EMPTY);
+    public int getCapacity()
+    {
+        return this.fluidTank.getCapacity();
+    }
+
+    private void manageLiquidInSlot()
+    {
+        ItemStack stack = this.itemHandler.getStackInSlot(LIQUID_IN_SLOT);
+        if (stack.isEmpty()) {
+            return;
+        }
+
+        Optional<IFluidHandlerItem> fluidHandler = Optional.ofNullable(stack.getCapability(Capabilities.FluidHandler.ITEM, null));
+        if (fluidHandler.isEmpty()) {
+            return;
+        }
+        IFluidHandlerItem fluidHandlerItem = fluidHandler.get();
+
+        if(!fluidTank.getFluid().isEmpty() && !fluidHandlerItem.getFluidInTank(0).is(fluidTank.getFluid().getFluid()))
+        {
+            return;
+        }
+
+        int capacity = getCapacity();
+        int fluidStackAmount = getFluidAmount();
+        int amountToDrain = capacity - fluidStackAmount;
+        int amount = fluidHandlerItem.drain(amountToDrain, IFluidHandler.FluidAction.SIMULATE).getAmount();
+        if (amount > 0) {
+
+            ItemStack slot = this.itemHandler.getStackInSlot(LIQUID_HANDLER_OUT_SLOT);
+            if(slot.isEmpty() || slot.getCount() < slot.getMaxStackSize() && slot.is(fluidHandlerItem.getContainer().getItem())) {
+                this.fluidTank.fill(fluidHandlerItem.drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE), IFluidHandler.FluidAction.EXECUTE);
+                this.itemHandler.setStackInSlot(LIQUID_IN_SLOT, ItemStack.EMPTY);
+
+                if(slot.isEmpty())
+                {
+                    this.itemHandler.setStackInSlot(LIQUID_HANDLER_OUT_SLOT, fluidHandlerItem.getContainer());
+                    return;
+                }
+                this.itemHandler.getStackInSlot(LIQUID_HANDLER_OUT_SLOT).grow(1);
+            }
+        }
+    }
+    private void manageLiquidOutSlot()
+    {
+        ItemStack stack = this.itemHandler.getStackInSlot(LIQUID_OUTPUT_SLOT);
+        if (stack.isEmpty()) {
+            return;
+        }
+
+        Optional<IFluidHandlerItem> fluidHandler = Optional.ofNullable(stack.getCapability(Capabilities.FluidHandler.ITEM, null));
+        if (fluidHandler.isEmpty()) {
+            return;
+        }
+        IFluidHandlerItem fluidHandlerItem = fluidHandler.get();
+
+        if(fluidTank.getFluid().isEmpty() && !fluidHandlerItem.getFluidInTank(0).is(fluidTank.getFluid().getFluid()))
+        {
+            return;
+        }
+
+        int capacity = fluidHandlerItem.getTankCapacity(0);
+        int fluidStackAmount = fluidHandlerItem.getFluidInTank(0).getAmount();
+        int amountToDrain = capacity - fluidStackAmount;
+        int amount = fluidTank.drain(amountToDrain, IFluidHandler.FluidAction.SIMULATE).getAmount();
+        if (amount > 0) {
+
+            ItemStack slot = this.itemHandler.getStackInSlot(LIQUID_HANDLER_OUT_SLOT);
+            if(slot.isEmpty() || slot.getCount() < slot.getMaxStackSize() && slot.is(fluidHandlerItem.getContainer().getItem())) {
+                fluidHandlerItem.fill(fluidTank.drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE), IFluidHandler.FluidAction.EXECUTE);
+                this.itemHandler.setStackInSlot(LIQUID_OUTPUT_SLOT, ItemStack.EMPTY);
+
+                if(slot.isEmpty())
+                {
+                    this.itemHandler.setStackInSlot(LIQUID_HANDLER_OUT_SLOT, fluidHandlerItem.getContainer());
+                    return;
+                }
+                this.itemHandler.getStackInSlot(LIQUID_HANDLER_OUT_SLOT).grow(1);
             }
         }
     }
 
-    private void transferFluidToTank() {
-        FluidActionResult result = FluidUtil.tryEmptyContainer(itemHandler.getStackInSlot(LIQUID_IN_SLOT), this.FLUID_TANK, Integer.MAX_VALUE, null, true);
-        if(result.result != ItemStack.EMPTY) {
-            itemHandler.setStackInSlot(0, result.result);
+    private void manageLiquidSlots() {
+       manageLiquidInSlot();
+       manageLiquidOutSlot();
+    }
+
+    private void drainForRecipe()
+    {
+        if(!hasRecipe() || getCurrentRecipe().get().value().getFluidIngredient().test(FluidStack.EMPTY))
+        {
+            return;
         }
+
+        CrystalGrowerRecipe recipe = getCurrentRecipe().get().value();
+        int amountToDrain = recipe.getFluidIngredient().amount();
+
+        fluidTank.drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
     }
 
-    private void transferFluidFromTankToHandler() {
-        FluidActionResult result = FluidUtil.tryFillContainer(itemHandler.getStackInSlot(LIQUID_IN_SLOT), this.FLUID_TANK, Integer.MAX_VALUE, null, true);
-        if(result.result != ItemStack.EMPTY) {
-            itemHandler.setStackInSlot(LIQUID_OUT_SLOT, result.result);
+    private boolean hasEnoughLiquid()
+    {
+        if(!getCurrentRecipe().get().value().getFluidIngredient().test(FluidStack.EMPTY))
+        {
+            return true;
         }
-    }
 
-    private boolean hasFluidHandlerInSlot(int slot) {
-        return !itemHandler.getStackInSlot(slot).isEmpty()
-                && itemHandler.getStackInSlot(slot).getCapability(Capabilities.FluidHandler.ITEM, null) != null;
-    }
-
-    private boolean hasEmptyFluidHandlerInSlot(int slot)
-    {        return !itemHandler.getStackInSlot(slot).isEmpty()
-            && itemHandler.getStackInSlot(slot).getCapability(Capabilities.FluidHandler.ITEM, null) != null
-            && !itemHandler.getStackInSlot(slot).getCapability(Capabilities.FluidHandler.ITEM, null).getFluidInTank(slot).isEmpty();
-    }
-
-    public FluidStack getFluid() {
-        return FLUID_TANK.getFluid();
+        CrystalGrowerRecipe recipe = getCurrentRecipe().get().value();
+        SizedFluidIngredient ingredient = recipe.getFluidIngredient();
+        return ingredient.test(fluidTank.getFluid());
     }
 
     // Recipe stuff
@@ -277,7 +386,7 @@ public class CrystalGrowerBlockEntity extends BlockEntity implements MenuProvide
 
     private Optional<RecipeHolder<CrystalGrowerRecipe>> getCurrentRecipe() {
         return this.level.getRecipeManager()
-                .getRecipeFor(ModRecipes.CRYSTAL_GROWER_TYPE.get(), new CrystalGrowerRecipeInput(itemHandler.getStackInSlot(INPUT_SLOT_1), itemHandler.getStackInSlot(INPUT_SLOT_2)), level);
+                .getRecipeFor(ModRecipes.CRYSTAL_GROWER_TYPE.get(), new CrystalGrowerRecipeInput(itemHandler.getStackInSlot(INPUT_SLOT_1), itemHandler.getStackInSlot(INPUT_SLOT_2), fluidTank.getFluid()), level);
     }
 
     private boolean canInsertItemIntoSlot(ItemStack output, int slot)
@@ -311,18 +420,24 @@ public class CrystalGrowerBlockEntity extends BlockEntity implements MenuProvide
         return maxProgress;
     }
 
+    @Nullable
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return super.getUpdateTag(registries);
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
-    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
-        return super.getUpdatePacket();
+    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+        return saveWithoutMetadata(pRegistries);
     }
 
-    public IFluidHandler getTank(@Nullable Direction direction)
-    {
-        return FLUID_TANK;
+    @Override
+    public ItemStackHandler getUpgradeInventory() {
+        return upgrades;
+    }
+
+    @Override
+    public BlockEntityTicker<CrystalGrowerBlockEntity> getTicker() {
+        return getBlockState().getTicker(level, ModBlockEntities.CRYSTAL_GROWER_BE.get());
     }
 }

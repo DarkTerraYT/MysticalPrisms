@@ -5,7 +5,7 @@ import net.minecraft.world.item.crafting.RecipeInput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
-public record CrystalGrowerRecipeInput(ItemStack inputTop, ItemStack inputBottom) implements RecipeInput {
+public record CrystalGrowerRecipeInput(ItemStack inputTop, ItemStack inputBottom, FluidStack fluid) implements RecipeInput {
 
     @Override
     public @NotNull ItemStack getItem(int i) {
@@ -17,6 +17,10 @@ public record CrystalGrowerRecipeInput(ItemStack inputTop, ItemStack inputBottom
         };
     }
 
+    public FluidStack getFluid()
+    {
+        return fluid;
+    }
 
     @Override
     public int size() {

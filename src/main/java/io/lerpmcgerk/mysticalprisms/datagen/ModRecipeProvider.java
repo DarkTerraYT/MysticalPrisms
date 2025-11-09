@@ -51,7 +51,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("AAA")
                 .define('A', Items.COBBLESTONE)
                 .define('B', Items.QUARTZ)
-                .define('C', Items.GOLD_BLOCK).save(recipeOutput);
+                .define('C', Items.GOLD_BLOCK)
+                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.JADE.get(), 9)
                 .requires(ModBlocks.JADE_BLOCK)

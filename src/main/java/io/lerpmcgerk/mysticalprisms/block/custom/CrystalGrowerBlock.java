@@ -68,6 +68,8 @@ public class CrystalGrowerBlock extends BaseEntityBlock {
         return ItemInteractionResult.sidedSuccess(level.isClientSide());
     }
 
+
+
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
         if(pLevel.isClientSide())

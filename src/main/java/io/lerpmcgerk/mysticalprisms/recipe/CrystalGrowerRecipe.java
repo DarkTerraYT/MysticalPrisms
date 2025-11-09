@@ -14,11 +14,13 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
+import org.jetbrains.annotations.NotNull;
 
-public record CrystalGrowerRecipe(Ingredient inputTop, Ingredient inputBottom, /*FluidIngredient fluidInput,*/ int time, ItemStack output) implements Recipe<CrystalGrowerRecipeInput> {
+public record CrystalGrowerRecipe(Ingredient inputTop, Ingredient inputBottom, SizedFluidIngredient fluidInput, int time, ItemStack output) implements Recipe<CrystalGrowerRecipeInput> {
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
@@ -36,12 +38,7 @@ public record CrystalGrowerRecipe(Ingredient inputTop, Ingredient inputBottom, /
             return false;
         }
 
-        if(inputBottom.hasNoItems())
-        {
-            MysticalPrisms.LOGGER.warn("Bottom slot has no item!");
-        }
-
-        return inputTop.test(crystalGrowerRecipeInput.getItem(0)) && inputBottom.test(crystalGrowerRecipeInput.getItem(1));
+        return inputTop.test(crystalGrowerRecipeInput.getItem(0)) && inputBottom.test(crystalGrowerRecipeInput.getItem(1)) && fluidInput.test(crystalGrowerRecipeInput.getFluid());
     }
 
     @Override
@@ -52,6 +49,11 @@ public record CrystalGrowerRecipe(Ingredient inputTop, Ingredient inputBottom, /
     @Override
     public int time() {
         return time;
+    }
+
+    public SizedFluidIngredient getFluidIngredient()
+    {
+        return fluidInput;
     }
 
     @Override
@@ -78,7 +80,7 @@ public record CrystalGrowerRecipe(Ingredient inputTop, Ingredient inputBottom, /
     {
         private static final StreamCodec<RegistryFriendlyByteBuf, Integer> STREAM_INT =  new StreamCodec<RegistryFriendlyByteBuf, Integer>() {
             @Override
-            public Integer decode(RegistryFriendlyByteBuf registryFriendlyByteBuf) {
+            public @NotNull Integer decode(RegistryFriendlyByteBuf registryFriendlyByteBuf) {
                 return registryFriendlyByteBuf.readInt();
             }
 
@@ -91,7 +93,7 @@ public record CrystalGrowerRecipe(Ingredient inputTop, Ingredient inputBottom, /
         public static final MapCodec<CrystalGrowerRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
                 Ingredient.CODEC_NONEMPTY.fieldOf("top").forGetter(CrystalGrowerRecipe::inputTop),
                 Ingredient.CODEC.fieldOf("bottom").orElse(Ingredient.EMPTY).forGetter(CrystalGrowerRecipe::inputBottom),
-                /*FluidIngredient.CODEC.orElse(FluidIngredient.empty()).fieldOf("fluid").forGetter(CrystalGrowerRecipe::fluidInput),*/
+                SizedFluidIngredient.FLAT_CODEC.fieldOf("fluid").orElse(SizedFluidIngredient.of(new FluidStack(Fluids.WATER, 10))).forGetter(CrystalGrowerRecipe::fluidInput),
                 Codec.INT.fieldOf("time").forGetter(CrystalGrowerRecipe::time),
                 ItemStack.CODEC.fieldOf("result").forGetter(CrystalGrowerRecipe::output)
         ).apply(inst, CrystalGrowerRecipe::new));
@@ -100,7 +102,7 @@ public record CrystalGrowerRecipe(Ingredient inputTop, Ingredient inputBottom, /
                 StreamCodec.composite(
                         Ingredient.CONTENTS_STREAM_CODEC, CrystalGrowerRecipe::inputTop,
                         Ingredient.CONTENTS_STREAM_CODEC, CrystalGrowerRecipe::inputBottom,
-                        /*FluidIngredient.STREAM_CODEC, CrystalGrowerRecipe::fluidInput,*/
+                        SizedFluidIngredient.STREAM_CODEC, CrystalGrowerRecipe::fluidInput,
                         STREAM_INT, CrystalGrowerRecipe::time,
                         ItemStack.STREAM_CODEC, CrystalGrowerRecipe::output,
                         CrystalGrowerRecipe::new);

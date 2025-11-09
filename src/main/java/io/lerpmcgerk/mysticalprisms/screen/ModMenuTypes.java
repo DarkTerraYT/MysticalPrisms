@@ -2,6 +2,7 @@ package io.lerpmcgerk.mysticalprisms.screen;
 
 import io.lerpmcgerk.mysticalprisms.MysticalPrisms;
 import io.lerpmcgerk.mysticalprisms.screen.custom.CrystalGrowerMenu;
+import io.lerpmcgerk.mysticalprisms.screen.custom.CrystallizerMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -17,6 +18,9 @@ public class ModMenuTypes {
 
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalGrowerMenu>> CRYSTAL_GROWER_MENU =
             registerMenuType("crystal_grower_menu", CrystalGrowerMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<CrystallizerMenu>> CRYSTALLIZER_MENU =
+            registerMenuType("crystallizer_menu", CrystallizerMenu::new);
+
 
     private static <T extends AbstractContainerMenu>DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name,
                                                                                                               IContainerFactory<T> factory) {

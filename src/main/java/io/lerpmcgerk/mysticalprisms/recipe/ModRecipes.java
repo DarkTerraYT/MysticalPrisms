@@ -14,10 +14,17 @@ public class ModRecipes {
 
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CrystalGrowerRecipe>> CRYSTAL_GROWER_SERIALIZER =
             SERIALIZERS.register("crystal_grower", CrystalGrowerRecipe.Serializer::new);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CrystallizerRecipe>> CRYSTALLIZER_SERIALIZER =
+            SERIALIZERS.register("crystallizer", CrystallizerRecipe.Serializer::new);
     public static final DeferredHolder<RecipeType<?>, RecipeType<CrystalGrowerRecipe>> CRYSTAL_GROWER_TYPE = RECIPE_TYPES.register("crystal_grower", () -> new RecipeType<CrystalGrowerRecipe>() {
         @Override
         public String toString() {
             return "crystal_grower";
+        }
+    });    public static final DeferredHolder<RecipeType<?>, RecipeType<CrystallizerRecipe>> CRYSTALLIZER_TYPE = RECIPE_TYPES.register("crystallizer", () -> new RecipeType<CrystallizerRecipe>() {
+        @Override
+        public String toString() {
+            return "crystallizer";
         }
     });
 

@@ -30,7 +30,9 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.SAPPHIRE_BLOCK.get());
         dropSelf(ModBlocks.AMBER_BLOCK.get());
         dropSelf(ModBlocks.LAVA_CRYSTAL_BLOCK.get());
+        dropSelf(ModBlocks.ENDER_CRYSTAL_BLOCK.get());
         dropSelf(ModBlocks.CRYSTAL_GROWER.get());
+        dropSelf(ModBlocks.CRYSTALLIZER.get());
 
         add(ModBlocks.JADE_ORE.get(),
                 block -> createMultipleOreDrops(ModBlocks.JADE_ORE.get(), ModItems.JADE.get(), 1, 3));
@@ -45,6 +47,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         add(ModBlocks.AMBER_DEEPSLATE_ORE.get(),
                 block -> createMultipleOreDrops(ModBlocks.AMBER_DEEPSLATE_ORE.get(), ModItems.AMBER.get(), 2, 4));
         add(ModBlocks.LAVA_CRYSTAL_ORE.get(), createOreDrop(ModBlocks.LAVA_CRYSTAL_ORE.get(), ModItems.LAVA_CRYSTAL.get()));
+        add(ModBlocks.ENDER_CRYSTAL_ORE.get(), createOreDrop(ModBlocks.ENDER_CRYSTAL_ORE.get(), ModItems.ENDER_CRYSTAL.get()));
 
     }
 

@@ -19,6 +19,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.joml.Matrix4f;
 
 import java.text.NumberFormat;
@@ -44,6 +45,7 @@ public class FluidTankRenderer {
         SHOW_AMOUNT_AND_CAPACITY,
         ITEM_LIST
     }
+
 
     public FluidTankRenderer(long capacity, boolean showCapacity, int width, int height) {
         this(capacity, showCapacity ? TooltipMode.SHOW_AMOUNT_AND_CAPACITY : TooltipMode.SHOW_AMOUNT, width, height);

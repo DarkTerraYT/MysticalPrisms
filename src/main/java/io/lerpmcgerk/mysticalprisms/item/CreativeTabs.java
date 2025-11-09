@@ -14,11 +14,13 @@ import java.util.function.Supplier;
 public class CreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MysticalPrisms.MODID);
 
-    public static final Supplier<CreativeModeTab> CRYSTAL_RESOURCES = CREATIVE_MODE_TABS.register("crystal_resources", () -> CreativeModeTab.builder()
+    public static final Supplier<CreativeModeTab> RESOURCES = CREATIVE_MODE_TABS.register("tab", () -> CreativeModeTab.builder()
             .icon(() -> new ItemStack(ModItems.JADE.get()))
-            .title(Component.translatable("creativetab.mysticalprisms.crystal_resources"))
+            .title(Component.translatable("creativetab.mysticalprisms.tab"))
             .displayItems((itemDisplayParameters, output) ->
             {
+                output.accept(ModBlocks.CRYSTAL_GROWER);
+                output.accept(ModBlocks.CRYSTALLIZER);
                 output.accept(ModItems.JADE);
                 output.accept(ModBlocks.JADE_BLOCK);
                 output.accept(ModItems.SAPPHIRE);
@@ -27,13 +29,8 @@ public class CreativeTabs {
                 output.accept(ModBlocks.AMBER_BLOCK);
                 output.accept(ModItems.LAVA_CRYSTAL);
                 output.accept(ModBlocks.LAVA_CRYSTAL_BLOCK);
-            }).build());
-
-    public static final Supplier<CreativeModeTab> CRYSTAL_MISC = CREATIVE_MODE_TABS.register("crystal_misc", () -> CreativeModeTab.builder()
-            .icon(() -> new ItemStack(ModBlocks.JADE_ORE))
-            .title(Component.translatable("creativetab.mysticalprisms.crystal_misc"))
-            .displayItems(((itemDisplayParameters, output) ->
-            {
+                output.accept(ModItems.ENDER_CRYSTAL);
+                output.accept(ModBlocks.ENDER_CRYSTAL_BLOCK);
                 output.accept(ModBlocks.JADE_ORE);
                 output.accept(ModBlocks.JADE_DEEPSLATE_ORE);
                 output.accept(ModBlocks.SAPPHIRE_ORE);
@@ -41,9 +38,8 @@ public class CreativeTabs {
                 output.accept(ModBlocks.AMBER_ORE);
                 output.accept(ModBlocks.AMBER_DEEPSLATE_ORE);
                 output.accept(ModBlocks.LAVA_CRYSTAL_ORE);
-                output.accept(ModBlocks.CRYSTAL_GROWER);
-            }))
-            .build());
+                output.accept(ModBlocks.ENDER_CRYSTAL_ORE);
+            }).build());
 
     public static final void register(IEventBus bus)
     {

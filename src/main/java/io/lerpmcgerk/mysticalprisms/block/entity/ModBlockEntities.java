@@ -14,8 +14,13 @@ public class ModBlockEntities {
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, MysticalPrisms.MODID);
 
     public static final Supplier<BlockEntityType<CrystalGrowerBlockEntity>> CRYSTAL_GROWER_BE =
-            BLOCK_ENTITIES.register("pedestal_be", () -> BlockEntityType.Builder.of(
+            BLOCK_ENTITIES.register("crystal_grower_be", () -> BlockEntityType.Builder.of(
                     CrystalGrowerBlockEntity::new, ModBlocks.CRYSTAL_GROWER.get()).build(null));
+
+    public static final Supplier<BlockEntityType<CrystallizerBlockEntity>> CRYSTALLIZER_BE =
+            BLOCK_ENTITIES.register("crystallizer_be", () ->
+                    BlockEntityType.Builder.of(CrystallizerBlockEntity::new,
+                            ModBlocks.CRYSTALLIZER.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

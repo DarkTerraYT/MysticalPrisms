@@ -3,6 +3,8 @@
   "item.mysticalprisms.sapphire": "Sapphire",
   "item.mysticalprisms.amber": "Amber",
   "item.mysticalprisms.lava_crystal": "Lava Crystal",
+  "item.mysticalprisms.ender_crystal": "Enderium",
+  "item.mysticalprisms.upgrade_base": "Upgrade Base",
 
   "block.mysticalprisms.jade_block": "Block of Jade",
   "block.mysticalprisms.jade_ore": "Jade Ore",
@@ -15,13 +17,19 @@
   "block.mysticalprisms.amber_deepslate_ore": "Amber Deepslate Ore",
   "block.mysticalprisms.lava_crystal_block": "Block of Lava Crystals",
   "block.mysticalprisms.lava_crystal_ore": "Lava Crystal Ore",
+  "block.mysticalprisms.ender_crystal_block": "Block of Enderium",
+  "block.mysticalprisms.ender_crystal_ore": "Enderium Ore",
   "block.mysticalprisms.crystal_grower": "Crystal Grower",
+  "block.mysticalprisms.crystallizer": "Crystallizer",
 
-  "creativetab.mysticalprisms.crystal_resources": "Mystical Prisms: Resources",
-  "creativetab.mysticalprisms.crystal_misc": "Mystical Prisms: Misc",
+  "creativetab.mysticalprisms.resources": "Mystical Prisms: Resources",
+  "creativetab.mysticalprisms.machines": "Mystical Prisms: Machines",
+  "creativetab.mysticalprisms.tab": "Mystical Prisms",
 
+  "mysticalprisms.tooltip.upgrade_base.0": "There's no upgrades,§l§o it's free real estate!§r",
+  "mysticalprisms.tooltip.speed_upgrade.0": "Makes applicable machines faster.",
   "mysticalprisms.tooltip.liquid.amount.with.capacity": "%s / %s mB",
   "mysticalprisms.tooltip.liquid.amount": "%s mB",
-  "mysticalprisms.tooltip.no_recipe": "None or Invalid recipe.",
-  "mysticalprisms.tooltip.no_energy": "Not enough energy."
+  "mysticalprisms.tooltip.energy.amount": "%s FE",
+  "mysticalprisms.tooltip.energy.amount.with.capacity": "%s / %s FE"
 }

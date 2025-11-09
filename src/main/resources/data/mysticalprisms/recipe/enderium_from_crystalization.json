@@ -1,0 +1,18 @@
+{
+  "input": {
+    "item": "minecraft:ender_pearl"
+  },
+  "fluid":
+  {
+    "amount": 100,
+    "fluid": "minecraft:water"
+  },
+  "energy": 0,
+  "time": 100,
+
+  "result":
+  {
+    "amount": 2,
+    "item": "mythicalprisms:ender_crystal"
+  }
+}

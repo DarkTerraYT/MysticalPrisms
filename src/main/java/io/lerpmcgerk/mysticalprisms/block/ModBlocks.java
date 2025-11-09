@@ -2,6 +2,7 @@ package io.lerpmcgerk.mysticalprisms.block;
 
 import io.lerpmcgerk.mysticalprisms.MysticalPrisms;
 import io.lerpmcgerk.mysticalprisms.block.custom.CrystalGrowerBlock;
+import io.lerpmcgerk.mysticalprisms.block.custom.CrystallizerBlock;
 import io.lerpmcgerk.mysticalprisms.item.ModItems;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -36,6 +37,10 @@ public class ModBlocks {
             .sound(SoundType.AMETHYST)
     ));
     public static final DeferredBlock<Block> LAVA_CRYSTAL_BLOCK = registerBlock("lava_crystal_block", () -> new Block(BlockBehaviour.Properties.of()
+            .strength(2f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.GLASS)));
+    public static final DeferredBlock<Block> ENDER_CRYSTAL_BLOCK = registerBlock("ender_crystal_block", () -> new Block(BlockBehaviour.Properties.of()
             .strength(2f)
             .requiresCorrectToolForDrops()
             .sound(SoundType.GLASS)));
@@ -76,9 +81,24 @@ public class ModBlocks {
             .requiresCorrectToolForDrops()
             .sound(SoundType.NETHERRACK)
     ));
+    public static final DeferredBlock<Block> ENDER_CRYSTAL_ORE = registerBlock("ender_crystal_ore", () -> new DropExperienceBlock(UniformInt.of(3, 6), BlockBehaviour.Properties.of()
+            .strength(4.5f)
+            .requiresCorrectToolForDrops()
+    ));
 
     // Block Entities
-    public static final DeferredBlock<Block> CRYSTAL_GROWER = registerBlock("crystal_grower", () -> new CrystalGrowerBlock(BlockBehaviour.Properties.of().strength(2f).requiresCorrectToolForDrops()));
+    public static final DeferredBlock<Block> CRYSTAL_GROWER = registerBlock("crystal_grower", () ->
+            new CrystalGrowerBlock(BlockBehaviour.Properties.of()
+            .strength(2f)
+                    .requiresCorrectToolForDrops()
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> CRYSTALLIZER = registerBlock("crystallizer", () ->
+            new CrystallizerBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> blockSupplier)
     {

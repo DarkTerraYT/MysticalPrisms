@@ -1,8 +1,11 @@
-// 1.21.1	2025-06-26T03:27:59.0797486	Loot Tables
+// 1.21.1	2025-06-27T22:25:48.3228685	Loot Tables
 83a5ce6fa41157006a1ca86fd8dc76bfc35b9995 data/mysticalprisms/loot_table/blocks/amber_block.json
 873fe6e57a139e1597507d2abb9764184132df24 data/mysticalprisms/loot_table/blocks/amber_deepslate_ore.json
 64eb887744627498a21dacee35f93cc6791af17b data/mysticalprisms/loot_table/blocks/amber_ore.json
-626b8093f3f318edd3c0ce20c1ea68a616fd435c data/mysticalprisms/loot_table/blocks/growth_chamber.json
+4a5434062b05dbba25caf4e8cdbb0a4e03bcd79e data/mysticalprisms/loot_table/blocks/crystallizer.json
+e51c59429a358ab30a6d04e3bb3dce02ad182dba data/mysticalprisms/loot_table/blocks/crystal_grower.json
+b58951f0a9ab2b9ba39b48b16296493b303cbf80 data/mysticalprisms/loot_table/blocks/ender_crystal_block.json
+362922a3e02fd69efa0b702d08f5591d56100e1e data/mysticalprisms/loot_table/blocks/ender_crystal_ore.json
 64f7405c17c7f2703cd682432ea48c2f7a48edbc data/mysticalprisms/loot_table/blocks/jade_block.json
 8a18aa1d1f0c42ad8c4f9ef2b48a4002baa305f6 data/mysticalprisms/loot_table/blocks/jade_deepslate_ore.json
 053b55f6b10eb19cebb87c9a7f2f7e1d1a46d17b data/mysticalprisms/loot_table/blocks/jade_ore.json
