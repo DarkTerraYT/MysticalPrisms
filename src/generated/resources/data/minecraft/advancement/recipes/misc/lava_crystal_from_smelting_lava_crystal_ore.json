@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lava_crystal_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "mysticalprisms:lava_crystal_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:lava_crystal_from_smelting_lava_crystal_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lava_crystal_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:lava_crystal_from_smelting_lava_crystal_ore"
+    ]
+  }
+}

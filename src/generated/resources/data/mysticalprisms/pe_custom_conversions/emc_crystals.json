@@ -1,0 +1,26 @@
+{
+  "values": {
+    "before": [
+      {
+        "type": "projecte:item",
+        "emc_value": 100,
+        "id": "mysticalprisms:jade"
+      },
+      {
+        "type": "projecte:item",
+        "emc_value": 200,
+        "id": "mysticalprisms:sapphire"
+      },
+      {
+        "type": "projecte:item",
+        "emc_value": 400,
+        "id": "mysticalprisms:amber"
+      },
+      {
+        "type": "projecte:item",
+        "emc_value": 408,
+        "id": "mysticalprisms:lava_crystal"
+      }
+    ]
+  }
+}

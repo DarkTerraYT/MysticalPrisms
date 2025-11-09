@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 2,
+  "experience": 0.65,
+  "group": "lava_crystal",
+  "ingredient": {
+    "item": "mysticalprisms:lava_crystal_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "mysticalprisms:lava_crystal"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 2,
+  "experience": 0.5,
+  "group": "jade",
+  "ingredient": {
+    "item": "mysticalprisms:jade_deepslate_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "mysticalprisms:jade"
+  }
+}

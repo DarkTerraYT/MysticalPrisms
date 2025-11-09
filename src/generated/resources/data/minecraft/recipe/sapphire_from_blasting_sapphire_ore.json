@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 2,
+  "experience": 0.55,
+  "group": "sapphire",
+  "ingredient": {
+    "item": "mysticalprisms:sapphire_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "mysticalprisms:sapphire"
+  }
+}

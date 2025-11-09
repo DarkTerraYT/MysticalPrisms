@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 2,
+  "experience": 0.6,
+  "group": "amber",
+  "ingredient": {
+    "item": "mysticalprisms:amber_deepslate_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "mysticalprisms:amber"
+  }
+}
